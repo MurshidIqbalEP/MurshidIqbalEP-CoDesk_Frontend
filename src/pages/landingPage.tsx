@@ -52,7 +52,7 @@ const CoDskLanding = () => {
               Create Workspace
               <span className="ml-2">→</span>
             </button>
-            <button className="px-8 py-4 bg-transparent border border-purple-500 text-white rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-200">
+            <button className="px-8 py-4 bg-transparent border border-purple-500 text-white rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-200" onClick={()=>navigate('/allWorkspace')}>
               Workspaces
             </button>
           </div>

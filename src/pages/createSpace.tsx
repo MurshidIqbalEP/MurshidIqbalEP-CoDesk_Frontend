@@ -5,8 +5,10 @@ import {createWorkspace} from "../api/workspace"
 import { uploadImageToCloudinary } from "../services/cloudinary";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function CreateSpace() {
+  const navigate = useNavigate()
   const user = useSelector((state: any) => state.user.user);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -61,9 +63,9 @@ function CreateSpace() {
                 if(uploadedImageUrl){
                   let res =  await createWorkspace(name,desc,uploadedImageUrl,user.id)
                   toast.success(res?.data.message)
+                  navigate('/allWorkspace')
                 }
            }
-        
 
       } catch (err) {
         console.error('Error during submission:', err);

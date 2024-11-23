@@ -17,7 +17,7 @@ const EnterOtpPage: React.FC = () => {
         setCooldown((prevCooldown) => {
           if (prevCooldown <= 1) {
             clearInterval(timer);
-            setIsCooldownActive(false); // Re-enable the button after the cooldown
+            setIsCooldownActive(false); 
             return 0;
           }
           return prevCooldown - 1;

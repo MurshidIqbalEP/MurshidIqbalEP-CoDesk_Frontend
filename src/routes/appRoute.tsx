@@ -7,6 +7,7 @@ import OtpPage from "../pages/otpPage"
 import CreateSpace from "../pages/createSpace";
 import AllSpaces from "../pages/allSpaces";
 import Workspace from "../pages/workspace";
+import AccesptInvitation from "../pages/accesptInvitation";
 
 function AppRoute() {
   return (
@@ -22,6 +23,7 @@ function AppRoute() {
         <Route path="/create-space" element={<CreateSpace />} />
         <Route path="/allWorkspace" element={<AllSpaces />} />
         <Route path="/workspace/:id" element={<Workspace />} />
+        <Route path="/accept-invitation" element={<AccesptInvitation />} />
         {/* Add other routes under AppLayout */}
       </Route>
 

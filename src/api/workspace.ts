@@ -37,3 +37,29 @@ export const fetchWorkspace = async(id:string)=>{
       return errorHandle(err);
     }
 }
+
+export const invite = async(workspaceId:string,email:string)=>{
+  try {
+      let response = await Api.post(workspaceRoutes.invite,{
+        workspaceId,email
+      });
+      return response;
+    } catch (error) {
+      const err: Error = error as Error;
+      return errorHandle(err);
+    }
+}
+
+export const acceptInvite = async(token:string)=>{
+  try {
+      let response = await Api.post(workspaceRoutes.acceptInvite,{
+        token
+      });
+      return response;
+    } catch (error) {
+      const err: Error = error as Error;
+      return errorHandle(err);
+    }
+}
+
+

@@ -8,6 +8,8 @@ import CreateSpace from "../pages/createSpace";
 import AllSpaces from "../pages/allSpaces";
 import Workspace from "../pages/workspace";
 import AccesptInvitation from "../pages/accesptInvitation";
+import RoomCanvas from "../pages/roomCanvas";
+import Map from "../pages/mapPage";
 
 function AppRoute() {
   return (
@@ -24,6 +26,10 @@ function AppRoute() {
         <Route path="/allWorkspace" element={<AllSpaces />} />
         <Route path="/workspace/:id" element={<Workspace />} />
         <Route path="/accept-invitation" element={<AccesptInvitation />} />
+        <Route path="/map" element={<Map />} />
+
+        <Route path="/canvas" element={<RoomCanvas />} />
+
         {/* Add other routes under AppLayout */}
       </Route>
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { fetchWorkspace, invite } from "../api/workspace";
 import { toast } from "sonner";
 
@@ -24,9 +24,10 @@ interface IWorkspace {
 function Workspace() {
   const { id } = useParams();
   const [workspace, setWorkspace] = useState<IWorkspace>();
-  const [invitedEmail,setInvitedEmail] = useState("")
-  const [invitedEmailErr,setInvitedEmailErr] = useState("")
+  const [invitedEmail, setInvitedEmail] = useState("");
+  const [invitedEmailErr, setInvitedEmailErr] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchWorkspaces = async () => {
@@ -41,23 +42,25 @@ function Workspace() {
     fetchWorkspaces();
   }, [id]);
 
-  const handleInvite = async()=>{
-      if(!invitedEmail){
-        setInvitedEmailErr("Email is needed")
-        return
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-     if (!emailRegex.test(invitedEmail)) {
+  const handleInvite = async () => {
+    if (!invitedEmail) {
+      setInvitedEmailErr("Email is needed");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(invitedEmail)) {
       setInvitedEmailErr("Please enter a valid email address.");
-      return 
-     }
+      return;
+    }
 
-    let res = await invite(workspace?._id as string,invitedEmail)
-    toast.success(res?.data.message)
-    setInvitedEmail("")
-    setIsModalOpen(false)
+    let res = await invite(workspace?._id as string, invitedEmail);
+    toast.success(res?.data.message);
+    setInvitedEmail("");
+    setIsModalOpen(false);
+  };
 
-
+  const handleGoToWorld = async ()=>{
+    navigate("/map")
   }
 
   return (
@@ -93,14 +96,22 @@ function Workspace() {
                 </div>
 
                 {/* Invite Member Button */}
-                <div>
+                <div className="ml-2 flex space-x-4">
                   <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="bg-white text-indigo-800 font-bold px-4 py-2 rounded-lg shadow-md hover:bg-gray-100"
+                    onClick={() => handleInvite()}
+                    className="bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold px-6 py-2 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-400"
                   >
                     Invite Member
                   </button>
+
+                  <button
+                    onClick={() => handleGoToWorld()}
+                    className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-semibold px-6 py-2 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  >
+                    Go to World
+                  </button>
                 </div>
+
               </div>
 
               {/* Workspace Details */}
@@ -149,23 +160,31 @@ function Workspace() {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-gradient-to-br from-gray-900 via-gray-900 to-purple-900 text-black rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-lg font-semibold text-white mb-0">Invite Member</h2>
+            <h2 className="text-lg font-semibold text-white mb-0">
+              Invite Member
+            </h2>
             <input
               type="email"
               placeholder="Enter email address"
               className="w-full px-4 py-2 mb-4 border rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
-              onChange={(e)=>setInvitedEmail(e.target.value)}
+              onChange={(e) => setInvitedEmail(e.target.value)}
             />
-            {invitedEmailErr&&
-            <p className="text-sm text-red-600">{invitedEmailErr}</p>}
+            {invitedEmailErr && (
+              <p className="text-sm text-red-600">{invitedEmailErr}</p>
+            )}
             <div className="flex justify-end space-x-4 mt-4">
               <button
-                onClick={() =>{ setIsModalOpen(false),setInvitedEmailErr('')}}
+                onClick={() => {
+                  setIsModalOpen(false), setInvitedEmailErr("");
+                }}
                 className="px-4 py-2 bg-gray-500 rounded-lg hover:bg-gray-400"
               >
                 Cancel
               </button>
-              <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700" onClick={handleInvite}>
+              <button
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                onClick={handleInvite}
+              >
                 Send Invite
               </button>
             </div>
